@@ -52,18 +52,25 @@ def convert_numbers(list_of_strings):
 
 
 if __name__ == "__main__":
+    # parser
     parser = ArgumentParser(description='calculate weighted squares')
-
-    parser.add_argument('numbers', nargs='+')
-    parser.add_argument('-w', '--weights', nargs='+')
+    parser.add_argument('file_numbers')
+    parser.add_argument('-w', '--file_weights')
     arguments = parser.parse_args()     
     
-    numbers = convert_numbers(arguments.numbers)
-    if arguments.weights:
-        weights = convert_numbers(arguments.weights)
+    # read files and convert string to float
+    with open(arguments.file_numbers, 'r') as file:
+        numbers_string = file.read()
+    numbers = convert_numbers(numbers_string)
+    
+    if arguments.file_weights:
+        with open(arguments.file_weights, 'r') as file:
+            weights_string = file.read()
+        weights = convert_numbers(weights_string)
     else:
         weights = None
-    
+
+    # calculate average of squares
     result = average_of_squares(numbers, weights)
     
     print(result)
